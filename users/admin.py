@@ -13,7 +13,6 @@ class CustomUserAdmin(UserAdmin):     #new
     list_filter = ('email', 'is_staff', 'is_active',)     #new
     fieldsets = (     #new
         ('Credentials', {'fields': ('email', 'password')}),     #new
-        ('User informations', {'fields': ('first_name', 'last_name')}),     #new
         ('Permissions', {'fields': ('is_staff', 'is_active', 'groups')}),     #new
     )     #new
     add_fieldsets = (     #new

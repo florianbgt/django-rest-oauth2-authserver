@@ -1,18 +1,30 @@
 from rest_framework import serializers      #new
 from django.contrib.auth import get_user_model      #new
 from django.contrib.auth.password_validation import validate_password       #new
-from django.contrib.auth.models import Group        #new
+from rest_framework.validators import UniqueValidator
 
 User = get_user_model()     #new
 
 
-class ProfileChangeSerializer(serializers.ModelSerializer):        #new
-    groups = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')     #new
+class SignUpSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(validators=[UniqueValidator(queryset=User.objects.all())])
+    password = serializers.CharField(write_only=True, validators=[validate_password])
+    password2 = serializers.CharField(write_only=True)
 
-    class Meta:        #new
-        model = User        #new
-        depth = 1        #new
-        fields = ('id', 'email', 'first_name', 'last_name', 'groups')        #new
+    class Meta:
+        model = User
+        fields = ['email', 'password', 'password2',]
+
+    def validate(self, value):
+        if value['password'] != value['password2']:
+            raise serializers.ValidationError({'password2': 'Password fields did not match'})
+        return value
+    
+    def create(self, validated_data):
+        user = User.objects.create(email = validated_data['email'])
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
 
 
 class PasswordChangeSerializer(serializers.ModelSerializer):        #new

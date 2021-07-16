@@ -4,6 +4,8 @@ description: Oauth2 SSO authentication server implementation with the Django RES
 image: 
 ---
 
+In this article, I will show you how to setup
+
 ## 1) Setting up our project
 In this section, we will setup our Django project and customize the default user model to implement email authentication
 

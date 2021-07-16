@@ -64,6 +64,7 @@ OAUTH2_PROVIDER = {     #new
     'SCOPES': {     #new
         'read': 'Read scope',       #new
         'write': 'Write scope',     #new
+        'introspection': 'Introspect token scope',
     }       #new
 }       #new
 
