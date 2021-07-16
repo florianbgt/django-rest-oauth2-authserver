@@ -1,30 +1,30 @@
 from rest_framework import serializers      #new
 from django.contrib.auth import get_user_model      #new
 from django.contrib.auth.password_validation import validate_password       #new
-from rest_framework.validators import UniqueValidator
+from rest_framework.validators import UniqueValidator       #new
 
 User = get_user_model()     #new
 
 
-class SignUpSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(validators=[UniqueValidator(queryset=User.objects.all())])
-    password = serializers.CharField(write_only=True, validators=[validate_password])
-    password2 = serializers.CharField(write_only=True)
+class SignUpSerializer(serializers.ModelSerializer):     #new
+    email = serializers.EmailField(validators=[UniqueValidator(queryset=User.objects.all())])     #new
+    password = serializers.CharField(write_only=True, validators=[validate_password])     #new
+    password2 = serializers.CharField(write_only=True)     #new
 
-    class Meta:
-        model = User
-        fields = ['email', 'password', 'password2',]
+    class Meta:     #new
+        model = User     #new
+        fields = ['email', 'password', 'password2',]     #new
 
-    def validate(self, value):
-        if value['password'] != value['password2']:
-            raise serializers.ValidationError({'password2': 'Password fields did not match'})
-        return value
+    def validate(self, value):     #new
+        if value['password'] != value['password2']:     #new
+            raise serializers.ValidationError({'password2': 'Password fields did not match'})     #new
+        return value     #new
     
-    def create(self, validated_data):
-        user = User.objects.create(email = validated_data['email'])
-        user.set_password(validated_data['password'])
-        user.save()
-        return user
+    def create(self, validated_data):     #new
+        user = User.objects.create(email = validated_data['email'])     #new
+        user.set_password(validated_data['password'])     #new
+        user.save()     #new
+        return user     #new
 
 
 class PasswordChangeSerializer(serializers.ModelSerializer):        #new

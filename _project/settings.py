@@ -40,15 +40,31 @@ INSTALLED_APPS = [
     #local
     'users',     #new
     #3rd party
-    'corsheaders',      #new
     'rest_framework',     #new
     'oauth2_provider',      #new
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'        #new
 
+OAUTH2_PROVIDER = {     #new
+    'SCOPES': {     #new
+        'read': 'Read scope',       #new
+        'write': 'Write scope',     #new
+        'introspection': 'Introspect token scope',     #new
+    }       #new
+}       #new
+
+REST_FRAMEWORK = {      #new
+    'DEFAULT_AUTHENTICATION_CLASSES': (     #new
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',     #new
+        'rest_framework.authentication.SessionAuthentication',      #new
+    ),     #new
+    'DEFAULT_PERMISSION_CLASSES': (      #new
+        'rest_framework.permissions.IsAuthenticated',      #new
+    )      #new
+}      #new
+
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',        #new    #need to be as high as possible
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -57,28 +73,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-OAUTH2_PROVIDER = {     #new
-    'ACCESS_TOKEN_EXPIRE_SECONDS': 60*60,       #new
-    'REFRESH_TOKEN_EXPIRE_SECONDS': 24*60*60,     #new
-    'SCOPES': {     #new
-        'read': 'Read scope',       #new
-        'write': 'Write scope',     #new
-        'introspection': 'Introspect token scope',
-    }       #new
-}       #new
-
-REST_FRAMEWORK = {      #new
-    'DEFAULT_AUTHENTICATION_CLASSES': (     #new
-        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',     #new
-        'rest_framework.authentication.SessionAuthentication',
-    ),     #new
-    'DEFAULT_PERMISSION_CLASSES': (      #new
-        'rest_framework.permissions.IsAuthenticated',      #new
-    )      #new
-}      #new
-
-CORS_ALLOW_ALL_ORIGINS = True   #new        #Do not use in production 
 
 ROOT_URLCONF = '_project.urls'
 
