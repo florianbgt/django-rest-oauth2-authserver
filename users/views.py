@@ -1,5 +1,5 @@
 from rest_framework import generics     #new
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny     #new
 from django.contrib.auth import get_user_model     #new
 from .serializers import SignUpSerializer, PasswordChangeSerializer     #new
 
